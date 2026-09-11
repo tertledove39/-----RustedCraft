@@ -17,3 +17,13 @@ displayRoundedDown: true
 [graphics]
 shadowOffsetX:2
 shadowOffsetY:2
+
+
+
+[resource_UnitPrice]
+hidden:true
+[resource_UnitRadius]
+hidden:true
+[hiddenAction_initResTagCount]
+autoTriggerOnEvent:created
+setResourcesWithLogic:UnitPrice=${core.price}, UnitRadius=${core.radius}
