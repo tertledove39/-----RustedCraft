@@ -1,5 +1,5 @@
 [mod]
-title:铁锈争霸RustedCraft-v0.37.2
+title:铁锈争霸RustedCraft-v0.38.0-exp.naval.2
 description: 斑鸠子牛刀再试捏
 
 minVersion:1.15
