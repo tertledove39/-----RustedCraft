@@ -17,10 +17,10 @@ transportUnitsAddUnloadOption: false
 
 techLevel: 1
 buildSpeed: 0s
-radius: 1
+radius: 20
 displayRadius: 1
 disableAllUnitCollisions: false
-isUnselectable: true
+#isUnselectable: true
 canNotBeDirectlyAttacked: true
 
 isBio: false

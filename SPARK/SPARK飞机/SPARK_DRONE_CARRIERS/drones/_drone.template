@@ -28,7 +28,7 @@ showInEditor: false
 total_frames: 1
 # image: need an image
 image_wreak: NONE
-image_shadow: NONE
+image_shadow: AUTO
 drawLayer: top
 
 [hiddenAction_needFather]
