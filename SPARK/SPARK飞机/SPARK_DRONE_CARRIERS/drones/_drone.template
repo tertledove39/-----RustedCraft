@@ -37,7 +37,10 @@ deleteSelf: true
 
 [hiddenAction_dead]
 autoTriggerOnEvent: destroyed
-requireConditional: if not memory.deck.hasFlag(id=25)
+# 只有甲板“已经没有待装填名额”时（drone_num = 0）才返还名额。
+# 换装时被 deleteNumUnitsFromTransport 拆掉的无人机，此刻甲板 drone_num 还是满的，
+# 再返还就会越换越多（3 架棱镜换军刀 → 变成装填 4 次）。
+requireConditional: if not memory.deck.hasFlag(id=25) and not memory.deck.hasResources(drone_num = 1)
 takeResources: drone_num = -1
 takeResources_discardCollected: true
 takeResources_includeReference: memory.deck

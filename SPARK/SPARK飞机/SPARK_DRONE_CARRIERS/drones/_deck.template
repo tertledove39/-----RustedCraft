@@ -32,7 +32,8 @@ showInEditor: false
 
 [graphics]
 total_frames: 1
-image: ROOT:/shared/NONE.png
+image: claw.png
+#ROOT:/shared/NONE.png
 image_wreak: NONE
 image_shadow: NONE
 icon_zoomed_out: ROOT:/shared/NONE.png
@@ -62,17 +63,34 @@ addResources: unsetFlag=24
 
 [hiddenAction_initDrone]
 autoTriggerOnEvent: created
-addResources: drone_num = ${core.maxTransportingUnits}
+# 用 set 而不是 add：convertTo 会保留单位属性（含资源），
+# 用 add 会把旧甲板残留的 drone_num 叠加到新甲板上限上
+setResourcesWithLogic: drone_num = ${core.maxTransportingUnits}
 
 [hiddenAction_queueBuildDrone]
-autoTrigger: if self.hasResources(drone_num = 1)
+# 一次只排一架（队列为空），并且“在场数量少于格数”才排下一架。
+# 于是每造完一架都会按当时真实的在场数量重新判断一次：
+# 上一套装载里没来得及回舱的无人机后来飞回来占掉格子时，这里就不会再造，
+# 不会出现“装不下 → 被丢在地图上”的散机（也就是你看到的错误刷兵）。
+autoTrigger: if self.hasResources(drone_num = 1) and self.queueSize(empty=true) and self.numberOfAttachedUnits(lessThan=${core.maxTransportingUnits})
 # need action buildDrone
 alsoQueueAction: buildDrone
 addResources: drone_num = -1
 
 [hiddenAction_drone_back]
 addResources: setFlag=25
-setResourcesWithLogic: drone_num = 0
+# 这里原本有 setResourcesWithLogic: drone_num = 0，已删除。
+# 它在换装读条的最后一帧会和 convertTo 之后 initDrone 的“设满名额”抢写，
+# 表现为换装完成后只补 1~2 架（棱镜→军刀→棱镜时随机复现）。
+
+[hiddenAction_releaseFlag25]
+# 换装读条期间 drone_back 会设上 flag 25，作用是“召回无人机 + 禁止战损返还”。
+# 解锁必须等到新甲板补员结束之后：
+#   被 deleteNumUnitsFromTransport 拆掉的旧机，destroyed 事件要晚一帧才结算，
+#   如果换装动作里就 unsetFlag=25，这些旧机会被误当成战损各返还 1 点 drone_num，
+#   留下一点“假名额”，等某架子机出击时就会多走一次白读条。
+autoTrigger: if self.hasFlag(id=25) and self.queueSize(empty=true) and self.numberOfAttachedUnits() > 0
+addResources: unsetFlag=25
 
 [action_change2deck_prisma]
 # deck name
@@ -90,9 +108,10 @@ displayType: action
 isVisible: true
 convertTo: ${dn}
 deleteNumUnitsFromTransport: 9
+# 与 initDrone(created) 写同一个值：换装时任意一个事件没触发也还有另一个兜底
 setResourcesWithLogic: drone_num = ${ds}
 highPriorityQueue: true
-addResources: unsetFlag=25
+# 这里原本有 addResources: unsetFlag=25，已移到 hiddenAction_releaseFlag25
 whenBuilding_triggerAction: drone_back
 canPlayerCancel: false
 removeAllQueuedItemsWithoutRefund: true
