@@ -1,0 +1,25 @@
+[action_setFlag24]
+buildSpeed: 0s
+text: 无人机-出击
+description: 单击召回无人机并让无人机整编
+displayType: action
+addResources: setFlag=24
+pos: 1
+price: 0
+isVisible: if not self.hasFlag(id=24)
+
+[action_unsetFlag24]
+@copyFromSection: action_setFlag24
+text: 无人机-整编
+description: 单击让无人机出击
+addResources: unsetFlag=24
+isVisible: if self.hasFlag(id=24)
+
+[action_drone_info]
+buildSpeed: 0s
+text: 无人机信息
+description: 战斗机-对空对地,轰炸机-对地,拦截机-对空\n-「棱镜」无人战斗机-小型光束\n-「利爪」无人战斗机-轻型机炮\n-「斗士」突击无人战斗机-轻型离子炮-带盾\n-「长剑」远程无人轰炸机-火箭炮\n-「死神」无人轰炸机-高伤害导弹\n-「军刀」重型无人轰炸机-炸弹-带盾\n-「蜂鸣」无人拦截机-闪电炮
+displayType: infoOnly
+pos: 2
+price: 0
+isVisible: true
