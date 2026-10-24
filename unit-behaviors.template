@@ -34,28 +34,28 @@ spawnEffects:CUSTOM:updating
 buildSpeed  : 0
 autoTrigger : if (self.resource.grade == 2 and self.resource.exp >= 5*(self.priceCredits()+self.resource.selfExtraPrice))
 addResources: grade = 1
-setUnitStats: maxHp=${core.maxHp*1.4}, shootDamageMultiplier=1.3, movespeed=self.maxMoveSpeed+0.1, maxAttackRange=${attack.maxAttackRange+15}
+setUnitStats: maxHp=${core.maxHp*1.4}, shootDamageMultiplier=1.3, movespeed=self.maxMoveSpeed+0, maxAttackRange=${attack.maxAttackRange+15}
 spawnEffects:CUSTOM:updating
 
 [hiddenAction_addGradeTo4]
 buildSpeed  : 0
 autoTrigger : if (self.resource.grade == 3 and self.resource.exp >= 8*(self.priceCredits()+self.resource.selfExtraPrice))
 addResources: grade = 1
-setUnitStats: maxHp=${core.maxHp*2}, shootDamageMultiplier=1.7, movespeed=self.maxMoveSpeed+0.13, maxAttackRange=${attack.maxAttackRange+20}
+setUnitStats: maxHp=${core.maxHp*2}, shootDamageMultiplier=1.7, movespeed=self.maxMoveSpeed+0.05, maxAttackRange=${attack.maxAttackRange+20}
 spawnEffects:CUSTOM:updating
 
 [hiddenAction_addGradeTo5]
 buildSpeed  : 0
 autoTrigger : if (self.resource.grade == 4 and self.resource.exp >= 15*(self.priceCredits()+self.resource.selfExtraPrice))
 addResources: grade=1
-setUnitStats: maxHp=${core.maxHp*2.5}, shootDamageMultiplier=2.2, movespeed=self.maxMoveSpeed+0.16, maxAttackRange=${attack.maxAttackRange+25}
+setUnitStats: maxHp=${core.maxHp*2.5}, shootDamageMultiplier=2.2, movespeed=self.maxMoveSpeed+0, maxAttackRange=${attack.maxAttackRange+25}
 spawnEffects:CUSTOM:updating
 
 [hiddenAction_addGradeTo6]
 buildSpeed  : 0
 autoTrigger : if (self.resource.grade == 5 and self.resource.exp >= 20*(self.priceCredits()+self.resource.selfExtraPrice))
 addResources: grade=1
-setUnitStats: maxHp=${core.maxHp*3}, shootDamageMultiplier=2.5, movespeed=self.maxMoveSpeed+0.2, maxAttackRange=${attack.maxAttackRange+30}
+setUnitStats: maxHp=${core.maxHp*3}, shootDamageMultiplier=2.5, movespeed=self.maxMoveSpeed+0.1, maxAttackRange=${attack.maxAttackRange+30}
 spawnEffects:CUSTOM:updating
 
 [hiddenAction_addhp]
