@@ -2,7 +2,7 @@
 class: CustomUnitMetadata
 tags: drone, SPARK
 
-price: 0
+price: 100
 mass: 1
 
 techLevel: 1
@@ -37,10 +37,14 @@ deleteSelf: true
 
 [hiddenAction_dead]
 autoTriggerOnEvent: destroyed
-# 只有甲板“已经没有待装填名额”时（drone_num = 0）才返还名额。
-# 换装时被 deleteNumUnitsFromTransport 拆掉的无人机，此刻甲板 drone_num 还是满的，
-# 再返还就会越换越多（3 架棱镜换军刀 → 变成装填 4 次）。
-requireConditional: if not memory.deck.hasFlag(id=25) and not memory.deck.hasResources(drone_num = 1)
+# 被击落就返还 1 个名额，让甲板能补员。
+# 换装时被 deleteNumUnitsFromTransport 拆掉的旧机不会走到这里：
+# 换装读条期间 drone_back 设上了 flag 25，而 flag 25 现在要等新甲板补员结束
+# 才会由 hiddenAction_releaseFlag25 解除。
+# 注意不要在这里再加“drone_num 是否为 0”之类的条件：
+# 那样两架子机先后被击落时，第二架会因为第一架留下的名额还没花掉而不返还，
+# 结果只能补到 2 架（蜂鸣甲板打一会儿之后只剩 2 架就是这个原因）。
+requireConditional: if not memory.deck.hasFlag(id=25)
 takeResources: drone_num = -1
 takeResources_discardCollected: true
 takeResources_includeReference: memory.deck
@@ -67,3 +71,12 @@ addWaypoint_target_fromReference: memory.deck.parent.attacking
 
 [resource_drone_num]
 hidden: false
+
+[hiddenAction_initSelfExtraExp]
+autoTriggerOnEvent: created
+# 无人机 price=0、也不参与军衔系统（没有 exp），
+# 而击杀方拿到的经验按 unit-behaviors.template 的公式计算：
+#   exp = 对方.priceCredits() + 对方.exp*0.5 + 对方.selfExtraPrice
+# 三项全是 0，所以击落无人机原本一点经验都不给。
+# 这里给一个固定经验权重，数值就是“每击落一架无人机，击杀方获得的经验”。
+addResources:selfExtraPrice = 10
