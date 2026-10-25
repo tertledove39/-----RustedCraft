@@ -1,5 +1,5 @@
 [mod]
-title:铁锈争霸RustedCraft-v0.38
-description: -重构地球联合政府文件目录并更新相关引用\n-拆分严格等级资源模板与军衔行为模板\n-清理重复键、重复行动和错误模板继承\n-保留0.36版本已有的单位与建筑平衡调整
+title:铁锈争霸RustedCraft-v0.38-α1
+description: -新增大量单位  -新增磁能塔(未完成)  -spark新空军单位(未完成)  -技能和单位大量平衡性调整
 
 minVersion:1.15
